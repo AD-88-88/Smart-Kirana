@@ -1,0 +1,46 @@
+rules_version = '2';
+
+// The frontend reads the "products" collection directly via the Firestore
+// client SDK for instant, real-time rate lookup across devices.
+// Every write (stock changes, new products, bills, customer balances) goes
+// through the Node backend using the Admin SDK, which is NOT subject to
+// these rules - so all client-side writes below are deliberately denied.
+// This keeps stock-deduction atomic and prevents a compromised staff
+// device from editing prices or stock directly in the database.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner() {
+      return isSignedIn() && request.auth.token.role == 'owner';
+    }
+
+    match /products/{productId} {
+      allow read: if isSignedIn();
+      allow write: if false; // writes only via backend Admin SDK
+    }
+
+    match /sales/{saleId} {
+      allow read: if isSignedIn();
+      allow write: if false;
+    }
+
+    match /customers/{customerId} {
+      allow read: if isSignedIn();
+      allow write: if false;
+
+      match /payments/{paymentId} {
+        allow read: if isSignedIn();
+        allow write: if false;
+      }
+    }
+
+    match /counters/{counterId} {
+      allow read: if isOwner();
+      allow write: if false;
+    }
+  }
+}

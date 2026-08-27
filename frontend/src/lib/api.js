@@ -41,4 +41,11 @@ export const api = {
   getCustomer: (id) => request(`/customers/${id}`),
   addCustomer: (data) => request('/customers', { method: 'POST', body: data }),
   recordPayment: (id, amount) => request(`/customers/${id}/payment`, { method: 'POST', body: { amount } }),
+
+  // Staff
+  getStaff: () => request('/staff'),
+  addStaff: (data) => request('/staff', { method: 'POST', body: data }),
+
+  // Analytics
+  getAnalytics: () => request('/analytics/summary'),
 };

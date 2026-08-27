@@ -88,7 +88,7 @@ export default function Dashboard() {
               <QuickAction label="Add Product" emoji="📦" onClick={() => navigate('/inventory/new')} />
               <QuickAction label="Customers" emoji="👥" onClick={() => navigate('/customers')} />
               {role === 'owner' && (
-                <QuickAction label="Inventory" emoji="📊" onClick={() => navigate('/inventory')} />
+                <QuickAction label="Admin" emoji="🛡️" onClick={() => navigate('/admin')} />
               )}
             </div>
           </div>

@@ -5,6 +5,8 @@ const cors = require('cors');
 const productsRouter = require('./routes/products');
 const salesRouter = require('./routes/sales');
 const customersRouter = require('./routes/customers');
+const staffRouter = require('./routes/staff');
+const analyticsRouter = require('./routes/analytics');
 
 const app = express();
 app.use(cors());
@@ -15,6 +17,8 @@ app.get('/api/health', (req, res) => res.json({ status: 'ok', service: 'smartkir
 app.use('/api/products', productsRouter);
 app.use('/api/sales', salesRouter);
 app.use('/api/customers', customersRouter);
+app.use('/api/staff', staffRouter);
+app.use('/api/analytics', analyticsRouter);
 
 // Fallback 404
 app.use((req, res) => res.status(404).json({ error: 'Not found.' }));

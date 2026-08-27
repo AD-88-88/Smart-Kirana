@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function TopBar({ title = 'SmartKirana', onBack }) {
   const { logout, role } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <div className="sticky top-0 z-30 bg-primary text-white px-4 py-3.5 flex items-center justify-between shadow-sm">
@@ -17,6 +19,11 @@ export default function TopBar({ title = 'SmartKirana', onBack }) {
       </div>
       <div className="flex items-center gap-3">
         <span className="text-xs bg-white/15 px-2 py-1 rounded-full capitalize">{role}</span>
+        {role === 'owner' && (
+          <button onClick={() => navigate('/admin')} aria-label="Admin Panel" className="p-1.5 bg-white/10 rounded-lg">
+            <span className="text-xs font-semibold">Admin</span>
+          </button>
+        )}
         <button onClick={logout} aria-label="Log out" className="p-1">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path

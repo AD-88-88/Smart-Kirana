@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Loader from './components/Loader';
+import { OwnerRoute } from './components/OwnerRoute';
 
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -9,6 +10,9 @@ import ProductForm from './pages/ProductForm';
 import POS from './pages/POS';
 import Customers from './pages/Customers';
 import CustomerDetail from './pages/CustomerDetail';
+import StaffManagement from './pages/StaffManagement';
+import Analytics from './pages/Analytics';
+import AdminDashboard from './pages/AdminDashboard';
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
@@ -29,6 +33,12 @@ function AppRoutes() {
       <Route path="/inventory/:id" element={<PrivateRoute><ProductForm /></PrivateRoute>} />
       <Route path="/customers" element={<PrivateRoute><Customers /></PrivateRoute>} />
       <Route path="/customers/:id" element={<PrivateRoute><CustomerDetail /></PrivateRoute>} />
+      
+      {/* Admin Panel */}
+      <Route path="/admin" element={<OwnerRoute><AdminDashboard /></OwnerRoute>} />
+      <Route path="/admin/staff" element={<OwnerRoute><StaffManagement /></OwnerRoute>} />
+      <Route path="/admin/analytics" element={<OwnerRoute><Analytics /></OwnerRoute>} />
+
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

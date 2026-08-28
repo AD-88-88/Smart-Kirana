@@ -20,8 +20,11 @@ export function AuthProvider({ children }) {
     const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
       if (firebaseUser) {
-        const tokenResult = await firebaseUser.getIdTokenResult();
+        // Force refresh to ensure we get the latest custom claims (like 'role: owner')
+        const tokenResult = await firebaseUser.getIdTokenResult(true);
         setRole(tokenResult.claims.role || 'staff');
+      } else {
+        setRole('staff');
       }
     });
     return unsub;
